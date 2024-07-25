@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="title">{{ document.title }}</h1>
+  <div class="box">
+    <p>{{ document.description }}</p>   
+    <p>Создан: {{ document.created_at }}</p>
+    <p>Обновлен: {{ document.updated_at }}</p>
+    <a href="{% url 'document_update' document.id %}" class="button is-warning">Редактировать</a>
+  
+    <button id="toggle-html" class="button is-info">Открыть документ</button>
+    <div id="html-content" class="html-content" style="display: none;">
+      <pre>{{ document.file_html|safe }}</pre>  <!-- Render the HTML content safely -->
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('toggle-html').onclick = function() {
+      var content = document.getElementById('html-content');
+      if (content.style.display === 'none') {
+        content.style.display = 'block';
+        this.textContent = 'Закрыть документ'; // Change button text
+      } else {
+        content.style.display = 'none';
+        this.textContent = 'Открыть документ'; // Change button text
+      }
+    };
+  </script>
+{% endblock %}

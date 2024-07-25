@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">News and Announcements</h1>
+
+<div class="columns">
+  <div class="column">
+    <h2 class="subtitle">News</h2>
+    <div class="box">
+      {% for news_item in news_page_obj %}
+      <article class="media">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <a href="{% url 'news_detail' 'news' news_item.id %}"><strong>{{ news_item.title }}</strong></a>
+            </p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+      {% if news_page_obj.has_previous %}
+      <a href="?news_page={{ news_page_obj.previous_page_number }}&announcement_page={{ announcement_page_obj.number }}" class="pagination-previous">Previous</a>
+      {% endif %}
+      {% if news_page_obj.has_next %}
+      <a href="?news_page={{ news_page_obj.next_page_number }}&announcement_page={{ announcement_page_obj.number }}" class="pagination-next">Next</a>
+      {% endif %}
+      <ul class="pagination-list">
+        {% for page_num in news_page_obj.paginator.page_range %}
+        <li>
+          <a href="?news_page={{ page_num }}&announcement_page={{ announcement_page_obj.number }}" class="pagination-link {% if news_page_obj.number == page_num %}is-current{% endif %}">{{ page_num }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>    
+  </div>
+  <div class="column">
+    <h2 class="subtitle">Announcements</h2>
+    <div class="box">
+      {% for announcement in announcement_page_obj %}
+      <article class="media">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <a href="{% url 'news_detail' 'announcement' announcement.id %}"><strong>{{ announcement.title }}</strong></a>
+            </p>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+      {% if announcement_page_obj.has_previous %}
+      <a href="?announcement_page={{ announcement_page_obj.previous_page_number }}&news_page={{ news_page_obj.number }}" class="pagination-previous">Previous</a>
+      {% endif %}
+      {% if announcement_page_obj.has_next %}
+      <a href="?announcement_page={{ announcement_page_obj.next_page_number }}&news_page={{ news_page_obj.number }}" class="pagination-next">Next</a>
+      {% endif %}
+      <ul class="pagination-list">
+        {% for page_num in announcement_page_obj.paginator.page_range %}
+        <li>
+          <a href="?announcement_page={{ page_num }}&news_page={{ news_page_obj.number }}" class="pagination-link {% if announcement_page_obj.number == page_num %}is-current{% endif %}">{{ page_num }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<a href="{% url 'news_create' %}" class="button is-primary">
+  <span class="icon is-small">
+    <i class="fas fa-plus"></i>
+  </span>
+  <span>Create News/Announcement</span>
+</a>
+{% endblock %}

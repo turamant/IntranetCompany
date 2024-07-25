@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="title">{% if news %}Edit News/Announcement{% else %}Create News/Announcement{% endif %}</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <div class="field">
+    <label class="label">Title</label>
+    <div class="control">
+      <input class="input" type="text" name="title" {% if news %}value="{{ news.title }}"{% endif %} required>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Content</label>
+    <div class="control">
+      <textarea class="textarea" name="content" required>{% if news %}{{ news.content }}{% endif %}</textarea>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <label class="checkbox">
+        <input type="checkbox" name="is_announcement" {% if news and news.is_announcement %}checked{% endif %}>
+        Is this an announcement?
+      </label>
+    </div>
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      <button type="submit" class="button is-primary">Save</button>
+    </div>
+    <div class="control">
+      <a href="{% url 'news_list' %}" class="button is-light">Cancel</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

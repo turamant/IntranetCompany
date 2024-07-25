@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="title">Documents</h1>
+  <a href="{% url 'document_create' %}" class="button is-primary">Create Document</a>
+  <div class="box">
+    {% for document in documents %}
+      <article class="media">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <a href="{% url 'document_detail' document.pk %}">{{ document.title }}</a>
+            </p>
+            <p>{{ document.description }}</p>
+            <p>Created: {{ document.created_at }}</p>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+{% endblock %}
